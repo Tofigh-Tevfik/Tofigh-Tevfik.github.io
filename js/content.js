@@ -89,7 +89,7 @@ window.PORTFOLIO = {
       },
       media: [
         { type: 'video', src: 'assets/video/drone-flight.mp4', poster: 'assets/img/posters/drone-flight.jpg', caption: 'Physical flight test of the custom PX4 controllers' },
-        { type: 'youtube', id: 'xHurFEICEpk', poster: 'assets/img/posters/px4-paper.jpg', caption: 'Video demonstration accompanying the manuscript' },
+        { type: 'youtube', id: '2NQxqfol1Cs', poster: 'assets/img/posters/px4-paper.jpg', caption: 'Video demonstration accompanying the manuscript' },
         { type: 'image', src: 'assets/img/px4/f450-drone.jpg', caption: 'The F450 test vehicle with a CubeOrange flight controller' },
         { type: 'image', src: 'assets/img/px4/px4-architecture.jpg', caption: 'Custom modules inside the PX4 architecture: trajectory_reader → custom_pos_control → rate control' },
         { type: 'image', src: 'assets/img/px4/flight-topdown.jpg', caption: 'Real-flight trajectory comparison on the physical quadrotor' },
@@ -106,7 +106,7 @@ window.PORTFOLIO = {
       },
       tags: ['PX4', 'C++', 'uORB', 'MPC', 'DFBC', 'INDI', 'SITL', 'HITL', 'Real flight'],
       links: [
-        { label: 'Watch the demo on YouTube', url: 'https://youtu.be/xHurFEICEpk', kind: 'youtube' }
+        { label: 'Watch the demo on YouTube', url: 'https://youtu.be/2NQxqfol1Cs', kind: 'youtube' }
       ],
       note: 'The source code will be published after the paper.'
     },
