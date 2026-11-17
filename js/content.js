@@ -34,7 +34,7 @@ window.PORTFOLIO = {
       summary: [
         'I work across the whole chain of guidance, navigation and control: mathematical modelling, simulation, real-time implementation, embedded feasibility, sensor processing, experimental verification and technical reporting.',
         'My recent work puts Model Predictive Control and Differential-Flatness-Based Control directly inside PX4 firmware and flies them on a real quadrotor. I also have paid R&D experience in railway-vehicle mechanical design and subsystem integration.',
-        'Based in Kayseri, Türkiye, and relocating to Toronto, ON.'
+        'I live in Stoney Creek (Hamilton), Ontario. I am a Canadian permanent resident, authorized to work in Canada, and do not need employer sponsorship.'
       ],
       skills: [
         { group: 'Flight control & autonomy', items: ['PX4', 'MPC', 'CMPC', 'DFBC', 'Rate-level INDI', 'PID', 'LQR', 'Quadrotor dynamics', 'Trajectory generation & tracking'] },
@@ -43,7 +43,9 @@ window.PORTFOLIO = {
         { group: 'Modelling & design', items: ['MATLAB / Simulink', 'Simscape', 'Python', 'SolidWorks', 'CATIA', 'Siemens NX'] }
       ],
       facts: [
-        ['Languages', 'Persian (native) · Turkish (fluent) · English (advanced)'],
+        ['Location', 'Stoney Creek (Hamilton), Ontario, Canada'],
+        ['Work status', 'Canadian permanent resident · no sponsorship needed'],
+        ['Languages', 'Persian (native) · Turkish (fluent) · English (professional)'],
         ['Education', 'M.Sc. & B.Sc. Mechatronics Engineering, Erciyes University'],
         ['Honours', 'Ranked 1st in the Faculty of Engineering, 2023']
       ],
@@ -55,7 +57,7 @@ window.PORTFOLIO = {
         { label: 'GitHub', url: 'https://github.com/Tofigh-Tevfik', kind: 'github' },
         { label: 'Download CV (PDF)', url: 'assets/docs/Tofigh_Hosseini_Moghaddam_CV.pdf', kind: 'download' }
       ],
-      note: 'P.S. The snow-capped volcano on the horizon is Mount Erciyes, the mountain above Kayseri, where most of this work was done.'
+      note: 'P.S. The snow-capped volcano on the horizon is Mount Erciyes, the mountain above Kayseri, Türkiye, where I studied and did most of this work.'
     },
 
     /* ------------------------------------------------------------- */

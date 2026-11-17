@@ -220,6 +220,12 @@ body.touch .prompt { bottom: calc(46vh + 8px); }
 .intro h1 { margin: 0; font: 700 clamp(2.4rem, 5.4vw, 4.4rem)/1.02 var(--font-display); letter-spacing: -.025em; }
 .intro .lead { margin: 20px 0 8px; font-size: clamp(1.05rem, 1.6vw, 1.22rem); color: var(--text); max-width: 520px; }
 .intro .sub { margin: 0; color: var(--muted); max-width: 500px; }
+.intro .status { display: flex; flex-wrap: wrap; gap: 8px; margin: 4px 0 16px; }
+.intro .status span {
+  display: inline-flex; align-items: center; gap: 7px; padding: 6px 12px 6px 10px; border-radius: 999px;
+  font-size: 13px; font-weight: 500; color: var(--text); background: rgba(255, 255, 255, .07); border: 1px solid var(--line-2);
+}
+.intro .status svg { width: 15px; height: 15px; color: var(--ok); }
 .intro-actions { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 28px; }
 .btn {
   display: inline-flex; align-items: center; gap: 10px; padding: 14px 22px; border-radius: 12px; border: 1px solid transparent;
