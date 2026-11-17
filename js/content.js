@@ -406,15 +406,19 @@ window.PORTFOLIO = {
       title: 'Education & Honours',
       kicker: '2019 – 2025 · Kayseri, Türkiye',
       subtitle: 'B.Sc. and M.Sc. in Mechatronics Engineering, graduating first in the Faculty of Engineering.',
+      thumb: 'assets/img/edu/top-graduate-2023.jpg',
       timeline: [
-        { when: '2023 – 2025', what: 'M.Sc., Mechatronics Engineering', detail: 'GPA 3.94 / 4.00 · Thesis: Convolutional Model Predictive Control for Rotary-Wing UAVs' },
-        { when: '2019 – 2023', what: 'B.Sc., Mechatronics Engineering', detail: 'GPA 3.88 / 4.00' },
-        { when: '2023', what: 'Ranked 1st in the Faculty of Engineering', detail: 'Certificate of Achievement, 2022–2023 academic year' },
-        { when: '2023', what: 'Ranked 1st in the Mechatronics Engineering Department', detail: 'Certificate of Achievement, 2022–2023 academic year' }
+        { when: '2023 – 2025', what: 'M.Sc., Mechatronics Engineering (with thesis)', detail: 'GPA 3.94 / 4.00 · Thesis: Convolutional Model Predictive Control for Rotary-Wing UAVs · Degree awarded 8 July 2025' },
+        { when: '2019 – 2023', what: 'B.Sc., Mechatronics Engineering', detail: 'GPA 3.88 / 4.00 · Graduated August 2023' },
+        { when: '2023', what: 'Top-ranking graduate of the Faculty of Engineering', detail: 'Certificate of Achievement, 2022–2023 academic year' },
+        { when: '2023', what: 'Top-ranking graduate of the Mechatronics Engineering Department', detail: 'Certificate of Achievement, 2022–2023 academic year' }
       ],
       media: [
-        { type: 'image', src: 'assets/img/edu/faculty-first.jpg', caption: 'Certificate: first in the Faculty of Engineering (2022–2023)' },
-        { type: 'image', src: 'assets/img/edu/department-first.jpg', caption: 'Certificate: first in the Mechatronics Engineering Department (2022–2023)' }
+        { type: 'image', hero: true, photo: true, src: 'assets/img/edu/top-graduate-2023.jpg', caption: 'Graduation ceremony 2023: receiving the award as the top-ranking graduate of the Faculty of Engineering' },
+        { type: 'image', src: 'assets/img/edu/faculty-first-en.jpg', caption: 'Certificate of Achievement: top-ranking graduate of the Faculty of Engineering (2022–2023)' },
+        { type: 'image', src: 'assets/img/edu/department-first-en.jpg', caption: 'Certificate of Achievement: top-ranking graduate of the Mechatronics Engineering Department (2022–2023)' },
+        { type: 'image', src: 'assets/img/edu/bsc-diploma.jpg', caption: 'B.Sc. diploma: Mechatronics Engineering, Erciyes University (2023)' },
+        { type: 'image', src: 'assets/img/edu/msc-diploma.jpg', caption: 'M.Sc. diploma (with thesis): Mechatronics Engineering, Erciyes University (2025)' }
       ],
       tags: ['Mechatronics', 'Control theory', 'Robotics', 'Embedded systems']
     },

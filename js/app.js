@@ -515,7 +515,8 @@
   // ---------- panel ----------
   const panel = $('panel'), pbody = $('panel-body');
   const order = ZD.map((z) => z.id);
-  const isPhoto = (src) => /\/(kaaf|team|edu|about)\/|f450|board/.test(src);
+  // photos may be cropped to fill their tile; documents/figures are always shown whole
+  const isPhoto = (m) => !!m.photo || /\/(kaaf|team|about)\/|f450|board/.test(m.src);
 
   function mediaEl(m, z, idx) {
     if (m.type === 'video') {
@@ -536,9 +537,9 @@
       });
       return h('figure', { class: 'media-item wide' }, [btn, m.caption ? h('figcaption', { text: m.caption }) : null]);
     }
-    const img = h('img', { src: m.src, alt: m.caption || '', loading: 'lazy', decoding: 'async' });
-    const fig = h('figure', { class: 'media-item' + (isPhoto(m.src) ? ' photo' : '') }, [img, m.caption ? h('figcaption', { text: m.caption }) : null]);
-    img.addEventListener('load', () => { if (img.naturalWidth / img.naturalHeight > 1.9) fig.classList.add('wide'); });
+    const img = h('img', { src: m.src, alt: m.caption || '', loading: m.hero ? 'eager' : 'lazy', decoding: 'async' });
+    const fig = h('figure', { class: 'media-item' + (m.hero ? ' wide hero-photo' : isPhoto(m) ? ' photo' : '') }, [img, m.caption ? h('figcaption', { text: m.caption }) : null]);
+    if (!m.hero) img.addEventListener('load', () => { if (img.naturalWidth / img.naturalHeight > 1.9) fig.classList.add('wide'); });
     img.addEventListener('click', () => openLightbox(z, m.src));
     return fig;
   }
@@ -587,7 +588,8 @@
       if (z.note) f.appendChild(h('p', { class: 'note', text: z.note }));
       return f;
     }
-    const heroIdx = media.findIndex((m) => m.type === 'video' || m.type === 'youtube');
+    let heroIdx = media.findIndex((m) => m.hero);
+    if (heroIdx < 0) heroIdx = media.findIndex((m) => m.type === 'video' || m.type === 'youtube');
     if (heroIdx >= 0) {
       const hero = media.splice(heroIdx, 1)[0];
       f.appendChild(h('div', { class: 'sec' }, mediaEl(hero, z)));
