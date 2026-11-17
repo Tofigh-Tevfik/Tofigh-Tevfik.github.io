@@ -516,7 +516,7 @@
   const panel = $('panel'), pbody = $('panel-body');
   const order = ZD.map((z) => z.id);
   // photos may be cropped to fill their tile; documents/figures are always shown whole
-  const isPhoto = (m) => !!m.photo || /\/(kaaf|team|about)\/|f450|board/.test(m.src);
+  const isPhoto = (m) => (m.photo != null ? !!m.photo : /\/(kaaf|team|about)\/|f450|board/.test(m.src));
 
   function mediaEl(m, z, idx) {
     if (m.type === 'video') {
@@ -567,7 +567,7 @@
     ].concat(g.bars.map((b, i) => {
       const fill = h('i', { class: 'bar-fill', 'data-w': (b[1] / max * 100).toFixed(1) });
       return h('div', { class: 'bar-row' + (i === g.bars.length - 1 ? ' hi' : '') }, [
-        h('span', { class: 'lbl', text: b[0] }), h('span', { class: 'bar-track' }, fill), h('span', { class: 'val', text: b[1].toFixed(3) + ' ' + c.unit })
+        h('span', { class: 'lbl', text: b[0] }), h('span', { class: 'bar-track' }, fill), h('span', { class: 'val', text: b[1].toFixed(c.decimals == null ? 3 : c.decimals) + ' ' + c.unit })
       ]);
     }))))).concat(c.note ? [h('p', { class: 'chart-note', text: c.note })] : []));
     return el;

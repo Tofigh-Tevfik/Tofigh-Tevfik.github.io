@@ -69,48 +69,55 @@ window.PORTFOLIO = {
       accent: '#38bdf8',
       pos: [0, -135],
       title: 'Real-Time Onboard MPC & DFBC on PX4',
-      kicker: 'Research · 2025 – 2026 · First author',
+      kicker: 'Research · 2025 – 2026 · First author · IEEE Access (under review)',
       subtitle: 'Can advanced trajectory-tracking controllers run directly inside PX4 firmware on a resource-constrained flight controller, with no companion computer?',
       summary: [
-        'Many advanced UAV control studies rely on an offboard or companion computer. In this project I moved Model Predictive Control and Differential-Flatness-Based Control into the PX4 flight stack itself, keeping real-time scheduling and the flight controller’s hardware limits intact, and then flew them.'
+        'Many advanced UAV control studies rely on an offboard or companion computer. In this project I moved Model Predictive Control (MPC), our convolution-weighted MPC (CMPC) and Differential-Flatness-Based Control (DFBC) into the PX4 flight stack itself, running entirely on a standard CubeOrange+ flight controller, and then flew them.',
+        'In repeated flights the controllers tracked aggressive trajectories 1.7 to 3.3 times more accurately than the autotuned PX4 baseline while using less control effort, and every flown loop was checked for stability margins on a model identified from flight data.'
       ],
       points: [
-        'Designed and implemented onboard MPC and DFBC trajectory-tracking modules in PX4 C++ firmware, and integrated a trajectory reader and a uORB-based horizon-reference interface.',
-        'Customised an embedded MPC solver with fixed-size matrix operations, warm starts and bounded iterations so it fits the flight controller.',
-        'Built a three-stage verification pipeline: SITL studies of disturbance, noise and model uncertainty; HITL analysis of CPU, RAM and loop time; then physical flight on an F450 / CubeOrange quadrotor.',
-        'Evaluated MPC, convolution-weighted MPC (CMPC) variants, DFBC and a rate-level INDI augmentation.'
+        'Designed the control architecture: position and attitude control laws (MPC, CMPC and DFBC) running above PX4’s rate controller and control allocation, written as C++ firmware modules linked by a custom uORB message. A supervisory OFFBOARD gate lets the safety pilot take over at any moment.',
+        'Wrote the ADMM MPC solver for the microcontroller: fixed-size matrices, no heap allocation, warm starts and a bounded iteration count. A closed-form thrust-cone projection inside the solver keeps every command feasible, even when the solver stops early. The full two-layer MPC runs in about 1.5 ms per update (about 70% CPU) on a 480 MHz Cortex-M7, while DFBC adds only 2.4 percentage points of CPU.',
+        'Made the comparison fair with a matched-tuning protocol: all controllers share the autotuned PX4 rate loop, equivalent attitude gains and the same tilt limit.',
+        'Ran 600+ SIL simulations with wind gusts, sensor noise, up to 40 ms of added latency, and mass, inertia, drag and centre-of-gravity errors, plus HIL runs to measure timing and jitter on the real flight computer. DFBC held a 26 m/s crosswind where PX4 failed at 24 m/s.',
+        'Identified the rate dynamics from flight data with an ARX model, cross-checked against a frequency-response estimate, and verified every flown loop: all had at least 30° phase margin and 7.6 dB gain margin.',
+        'Flew a repeated test campaign on 8 aggressive trajectories (up to 45° tilt and 7.3 m/s), starting from an in-flight autotune and retuning between flights from the logs. Repeat flights agreed within 7–9%.',
+        'Showed analytically, and confirmed in simulation, that rate-level INDI added above a PID rate loop acts like an extra derivative gain, so it was kept out of the flown design.'
       ],
       chart: {
-        title: 'Real-flight tracking error: same-time 3D RMSE (lower is better)',
+        title: 'Real-flight tracking error: same-time RMSE (lower is better)',
         unit: 'm',
+        decimals: 2,
         groups: [
-          { label: 'Lemniscate @ 5.2 m/s', bars: [['Tested PX4 default', 0.877], ['DFBC', 0.491], ['MPC', 0.410]], callout: 'MPC: 53.2% lower' },
-          { label: 'Lemniscate @ 8.2 m/s', bars: [['Tested PX4 default', 2.063], ['DFBC', 0.775], ['MPC', 0.713]], callout: 'MPC: 65.4% lower' }
+          { label: 'Average over all 8 flown references', bars: [['PX4 (autotuned)', 1.27], ['MPC', 0.59], ['CMPC', 0.52], ['DFBC', 0.47]], callout: '2.2–2.7× lower' },
+          { label: 'Hairpin, 45° tilt (sharpest turns)', bars: [['PX4 (autotuned)', 1.93], ['MPC', 0.74], ['CMPC', 0.64], ['DFBC', 0.58]], callout: 'DFBC: 3.3× lower' },
+          { label: 'Lemniscate, 45° tilt', bars: [['PX4 (autotuned)', 0.99], ['MPC', 0.55], ['CMPC', 0.46], ['DFBC', 0.40]], callout: 'DFBC: 2.5× lower' }
         ],
-        note: 'F450 / CubeOrange, 5 Oct 2026, one physical run per configuration, so these are not averages. The 8.2 m/s reference needed about 66° tilt while the tested PX4 default was limited to about 45°, so the fast case is not an equal-constraint comparison. MPC ran onboard at about 69% CPU, versus 46–48% for the other configurations.'
+        note: 'Best run of each configuration on the physical quadrotor (Loop, Hairpin, Lemniscate and Kidney paths at 40° and 45° required tilt), from the IEEE Access manuscript. All trajectory generation, estimation and control run on the CubeOrange+; no companion computer. Matched tuning: every controller shares the autotuned PX4 rate loop, equivalent attitude gains and the same tilt limit. The custom controllers trail the reference by 60 ms or less, against 220–360 ms for autotuned PX4.'
       },
       media: [
         { type: 'video', src: 'assets/video/drone-flight.mp4', poster: 'assets/img/posters/drone-flight.jpg', caption: 'Physical flight test of the custom PX4 controllers' },
-        { type: 'youtube', id: '2NQxqfol1Cs', poster: 'assets/img/posters/px4-paper.jpg', caption: 'Video demonstration accompanying the manuscript' },
-        { type: 'image', src: 'assets/img/px4/f450-drone.jpg', caption: 'The F450 test vehicle with a CubeOrange flight controller' },
+        { type: 'youtube', id: '2NQxqfol1Cs', poster: 'assets/img/posters/px4-paper.jpg', caption: 'Video demonstration accompanying the IEEE Access manuscript' },
+        { type: 'image', src: 'assets/img/px4/f450-drone.jpg', caption: 'The test quadrotor: CubeOrange+ flight controller (480 MHz Cortex-M7), Here3+ GNSS, SunnySky X2212 motors, no companion computer' },
+        { type: 'image', src: 'assets/img/px4/flight-paths.jpg', caption: 'Flown paths of all four controllers on the eight references (40° top, 45° bottom)' },
+        { type: 'image', src: 'assets/img/px4/lemniscate-tubes.jpg', caption: 'Lemniscate at 45°, three flights per controller: RMSE 1.06 m (PX4 autotuned), 0.43 m (DFBC), 0.59 m (MPC), 0.50 m (CMPC)' },
         { type: 'image', src: 'assets/img/px4/px4-architecture.jpg', caption: 'Custom modules inside the PX4 architecture: trajectory_reader → custom_pos_control → rate control' },
-        { type: 'image', src: 'assets/img/px4/flight-topdown.jpg', caption: 'Real-flight trajectory comparison on the physical quadrotor' },
-        { type: 'image', src: 'assets/img/px4/lemniscate-tubes.jpg', caption: 'Lemniscate tracking tubes and error over time (manuscript figure)' },
         { type: 'image', src: 'assets/img/px4/mpc-structure.jpg', caption: 'MPC control structure integrated into the PX4 pipeline' },
         { type: 'image', src: 'assets/img/px4/dfbc-structure.jpg', caption: 'DFBC structure for feedforward-oriented trajectory tracking' },
-        { type: 'image', src: 'assets/img/px4/hitl-resources.jpg', caption: 'HITL resource profile: CPU, RAM and loop time' },
-        { type: 'image', src: 'assets/img/px4/noise-boxplot.jpg', caption: 'Noise-sensitivity analysis across controllers' }
+        { type: 'image', src: 'assets/img/px4/loop-margins.jpg', caption: 'Loop transfer functions of the flown cascades: body-rate, attitude and position loops all stable with adequate margins' },
+        { type: 'image', src: 'assets/img/px4/hitl-resources.jpg', caption: 'HITL resource profile on the flight controller: CPU, RAM and loop time' },
+        { type: 'image', src: 'assets/img/px4/noise-boxplot.jpg', caption: 'SITL: tracking error under four sensor-noise levels' }
       ],
       publication: {
-        title: 'Real-Time Implementation of Model Predictive and Differential Flatness-Based Control under Hardware Constraints in PX4 Flight Controllers',
-        authors: 'S. T. Hosseini Moghaddam, E. Arslan, M. Erşen',
-        status: 'Submitted manuscript, 2026'
+        title: 'Real-Time Onboard Deployment of Model Predictive Control and Differential-Flatness-Based Control for Quadrotor Tracking on Resource-Constrained PX4-Compatible Flight Controllers',
+        authors: 'S. T. Hosseini Moghaddam, E. Arslan',
+        status: 'IEEE Access, under review, 2026'
       },
-      tags: ['PX4', 'C++', 'uORB', 'MPC', 'DFBC', 'INDI', 'SITL', 'HITL', 'Real flight'],
+      tags: ['PX4', 'C++', 'uORB', 'MPC', 'CMPC', 'DFBC', 'ADMM', 'Cortex-M7', 'SIL', 'HIL', 'Flight test'],
       links: [
         { label: 'Watch the demo on YouTube', url: 'https://youtu.be/2NQxqfol1Cs', kind: 'youtube' }
       ],
-      note: 'The source code will be published after the paper.'
+      note: 'Manuscript available on request. The source code will be released after publication.'
     },
 
     /* ------------------------------------------------------------- */
@@ -122,7 +129,7 @@ window.PORTFOLIO = {
       accent: '#a78bfa',
       pos: [-100, -100],
       title: 'Convolutional Weighting-Enhanced MPC',
-      kicker: 'M.Sc. thesis research · 2023 – 2025',
+      kicker: 'M.Sc. thesis research · 2023 – 2025 · Published in Advanced Robotics (2026)',
       thumb: 'assets/img/posters/cmpc.jpg',
       subtitle: 'An MPC that sees what’s coming. Convolution over the reference trajectory adapts the cost-function weights before the hard part of the path arrives.',
       summary: [
@@ -133,6 +140,7 @@ window.PORTFOLIO = {
         'Implemented CMPC variants in MATLAB for linear, nonlinear and adaptive MPC structures.',
         'Compared CMPC with fixed-weight MPC baselines and LQR-like reference controllers.',
         'Studied tracking performance, energy behaviour, noise sensitivity and loop-time behaviour.',
+        'Later implemented CMPC onboard in PX4 firmware (see the Flight Test Hangar) and flew it: it beat standard MPC by 12% in flight and by 4–8% in simulation.',
         'M.Sc. thesis: Convolutional Model Predictive Control for Rotary-Wing UAVs.'
       ],
       media: [
@@ -147,7 +155,7 @@ window.PORTFOLIO = {
       publication: {
         title: 'Convolutional Weighting-Enhanced MPC: A Comprehensive Mathematical Framework for Energy-Efficient Quadrotor Reference Tracking',
         authors: 'E. Arslan, S. T. Hosseini Moghaddam, M. Suveren',
-        status: 'Co-authored journal manuscript'
+        status: 'Advanced Robotics, vol. 40, no. 6, pp. 320–337, 2026'
       },
       tags: ['MATLAB', 'Linear MPC', 'Nonlinear MPC', 'Adaptive MPC', 'LQR', 'Energy efficiency']
     },
@@ -437,8 +445,8 @@ window.PORTFOLIO = {
       kicker: 'Papers, manuscripts and technical reports',
       subtitle: 'Each entry links to the building where the project lives.',
       publications: [
-        { title: 'Real-Time Implementation of Model Predictive and Differential Flatness-Based Control under Hardware Constraints in PX4 Flight Controllers', authors: 'S. T. Hosseini Moghaddam, E. Arslan, M. Erşen', status: 'Submitted manuscript (first author), 2026', zone: 'px4' },
-        { title: 'Convolutional Weighting-Enhanced MPC: A Comprehensive Mathematical Framework for Energy-Efficient Quadrotor Reference Tracking', authors: 'E. Arslan, S. T. Hosseini Moghaddam, M. Suveren', status: 'Co-authored journal manuscript', zone: 'cmpc' },
+        { title: 'Real-Time Onboard Deployment of Model Predictive Control and Differential-Flatness-Based Control for Quadrotor Tracking on Resource-Constrained PX4-Compatible Flight Controllers', authors: 'S. T. Hosseini Moghaddam, E. Arslan', status: 'IEEE Access, under review (first author), 2026', zone: 'px4' },
+        { title: 'Convolutional Weighting-Enhanced MPC: A Comprehensive Mathematical Framework for Energy-Efficient Quadrotor Reference Tracking', authors: 'E. Arslan, S. T. Hosseini Moghaddam, M. Suveren', status: 'Advanced Robotics, vol. 40, no. 6, pp. 320–337, 2026', zone: 'cmpc' },
         { title: 'ROS Gazebo and MATLAB/Simulink Co-simulation for Cart-Pole System: A Framework for Design Optimization', authors: 'E. Arslan, M. Suveren, S. T. Hosseini Moghaddam', status: 'ISAS 2023 conference paper', zone: 'cosim' },
         { title: 'Path Tracking for Agricultural Spraying UAVs: A Pure Pursuit Control Approach', authors: 'E. Arslan, S. T. Hosseini Moghaddam', status: 'Co-authored paper', zone: 'agri' },
         { title: 'Convolutional Model Predictive Control for Rotary-Wing UAVs', authors: 'S. T. Hosseini Moghaddam', status: 'M.Sc. thesis, Erciyes University, 2025', zone: 'cmpc' }
@@ -466,14 +474,17 @@ window.PORTFOLIO = {
       kicker: 'Teknofest UAV team · FIRST Robotics mentor',
       subtitle: 'Where the drone obsession started: building and wiring multirotors with a student team, then passing it on.',
       timeline: [
-        { when: 'B.Sc. years', what: 'Teknofest Rotary-Wing UAV Team: ERU Project LAB', detail: 'Mechanical design, mission-mechanism development and CAD; first hands-on work with the PX4 autopilot architecture, flight-controller integration and simulation testing.' },
-        { when: '2022 – 2023', what: 'Robotics Mentor: Kayseri Robotics FIRST Robotics Competition (FRC) team', detail: 'Mentored high-school students in mechanical design, robot software, differential-drivetrain kinematics and DC-motor position control, and supported the CAD design of the competition robot.' }
+        { when: '2021 – 2022', what: 'Teknofest Rotary-Wing UAV Team: ERU Project LAB', detail: 'Airframe CAD, mission-mechanism design, PX4 setup and simulation testing; my first hands-on work with the PX4 autopilot architecture and flight-controller integration.' },
+        { when: '2022 – 2023', what: 'Robotics Mentor: Kayseri Robotics FIRST Robotics Competition (FRC) team', detail: 'Mentored high-school students in mechanical design, robot software, differential-drivetrain kinematics and DC-motor position control, and supported the CAD design of the competition robot. Mentored team #9041 at the 2023 Haliç Regional (VW Arena, 31 March – 2 April 2023).' }
       ],
       media: [
+        { type: 'image', hero: true, photo: true, src: 'assets/img/team/frc-team.jpg', caption: 'The Kayseri Robotics FIRST Robotics Competition team' },
+        { type: 'image', src: 'assets/img/team/frc-competition.jpg', caption: 'FIRST Robotics Competition robots in a match on the field' },
+        { type: 'image', photo: false, src: 'assets/img/team/frc-certificate.jpg', caption: 'Mentor certificate: team #9041 at the 2023 Haliç Regional (31 March – 2 April 2023)' },
         { type: 'image', src: 'assets/img/team/teknofest-field.jpg', caption: 'Field assembly of the Teknofest multirotor' },
         { type: 'image', src: 'assets/img/team/teknofest-lab.jpg', caption: 'Building and wiring in the lab' },
-        { type: 'image', src: 'assets/img/team/teknofest-cad.jpg', caption: 'Drone CAD for the Teknofest team' },
-        { type: 'image', src: 'assets/img/team/teknofest-mechanism.jpg', caption: 'Mission-mechanism design' }
+        { type: 'image', photo: false, src: 'assets/img/team/teknofest-cad.jpg', caption: 'Drone CAD for the Teknofest team' },
+        { type: 'image', photo: false, src: 'assets/img/team/teknofest-mechanism.jpg', caption: 'Mission-mechanism design' }
       ],
       tags: ['Teknofest', 'PX4', 'CAD', 'FRC', 'Mentoring']
     }
