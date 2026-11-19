@@ -1,4 +1,4 @@
-# Flight Portfolio: Seyed Tofigh Hosseini Moghaddam
+# Flight Portfolio: Tofigh Hosseini
 
 An interactive, single-page portfolio. Visitors fly an F450-style quadrotor around a small low-poly campus, and each building holds one project, with videos, photos, results and links.
 

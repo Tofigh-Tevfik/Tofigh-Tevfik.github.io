@@ -11,12 +11,12 @@
    ===================================================================== */
 window.PORTFOLIO = {
   person: {
-    name: 'Seyed Tofigh Hosseini Moghaddam',
+    name: 'Tofigh Hosseini',
     shortName: 'Tofigh Hosseini',
     headline: 'Mechatronics Engineer · Flight Control · Embedded Software · Autonomous Systems',
     email: 'tofigh.main@gmail.com',
     github: 'https://github.com/Tofigh-Tevfik',
-    cv: 'assets/docs/Tofigh_Hosseini_Moghaddam_CV.pdf'
+    cv: 'assets/docs/Tofigh_Hosseini_CV.pdf'
   },
 
   zones: [
@@ -28,7 +28,7 @@ window.PORTFOLIO = {
       category: 'About',
       accent: '#f5b942',
       pos: [0, 0],
-      title: 'Seyed Tofigh Hosseini Moghaddam',
+      title: 'Tofigh Hosseini',
       kicker: 'About me',
       subtitle: 'Mechatronics engineer who turns control and autonomy concepts into real-time software for resource-constrained systems.',
       summary: [
@@ -50,12 +50,12 @@ window.PORTFOLIO = {
         ['Honours', 'Ranked 1st in the Faculty of Engineering, 2023']
       ],
       media: [
-        { type: 'image', src: 'assets/img/about/profile.jpg', caption: 'Seyed Tofigh Hosseini Moghaddam' }
+        { type: 'image', src: 'assets/img/about/profile.jpg', caption: 'Tofigh Hosseini' }
       ],
       links: [
         { label: 'Email me', url: 'mailto:tofigh.main@gmail.com', kind: 'mail' },
         { label: 'GitHub', url: 'https://github.com/Tofigh-Tevfik', kind: 'github' },
-        { label: 'Download CV (PDF)', url: 'assets/docs/Tofigh_Hosseini_Moghaddam_CV.pdf', kind: 'download' }
+        { label: 'Download CV (PDF)', url: 'assets/docs/Tofigh_Hosseini_CV.pdf', kind: 'download' }
       ],
       note: 'P.S. The snow-capped volcano on the horizon is Mount Erciyes, the mountain above Kayseri, Türkiye, where I studied and did most of this work.'
     },
